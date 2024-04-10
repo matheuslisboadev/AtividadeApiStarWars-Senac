@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Api</title>
+</head>
+<body>
+    <h1>Busca Star Wars</h1>
+    <label for="idInput"></label>
+    <p> Personagem <input type="radio" id="personagem" name="categoria" value="people"> </p>
+    <p> Planeta <input type="radio" id="planeta" name="categoria" value="planets"> </p>
+    <p> ID:
+        <input type="text" id="idInput" required>
+        <button onclick="consultarId()">Consultar</button>
+    </p>
+    <div id="resultado"></div>
+
+    <script>
+        async function consultarId() {
+            const categoria = document.querySelector('input[name="categoria"]:checked');
+            if (!categoria) {
+                alert('Por favor, selecione uma categoria.');
+                return;
+            }
+            const id = document.getElementById('idInput').value;
+            const baseURL = 'https://swapi.dev/api';
+            const response = await fetch(`${baseURL}/${categoria.value}/${id}`);
+            if (!response.ok) {
+                alert('Erro ao consultar. Verifique sua entrada.');
+                return;
+            }
+            const data = await response.json();
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+    </script>
+
+   
+
+
+</body>
+</html>
